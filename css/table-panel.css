@@ -1,0 +1,122 @@
+/* ===== DISTINGUISHABILITY TABLE ===== */
+.dist-table-wrap {
+  overflow: auto;
+  flex: 1;
+}
+
+.dist-table {
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  margin: 0 auto;
+}
+
+.dist-table th {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--violet);
+  padding: 8px 10px;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.dist-table td {
+  width: 42px;
+  height: 42px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.5s ease;
+  cursor: default;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.dist-table td.cell-empty {
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+.dist-table td.cell-unknown {
+  background: rgba(136, 136, 170, 0.08);
+  color: var(--text-dim);
+}
+
+.dist-table td.cell-marked {
+  background: var(--red-dim);
+  color: var(--red);
+  box-shadow: inset 0 0 12px rgba(255, 71, 87, 0.15);
+  font-weight: 700;
+}
+
+.dist-table td.cell-marked.cell-flash {
+  animation: cellFlashRed 0.6s ease;
+}
+
+.dist-table td.cell-equivalent {
+  background: var(--green-dim);
+  color: var(--green);
+  box-shadow: inset 0 0 12px rgba(46, 204, 113, 0.15);
+  font-weight: 700;
+}
+
+.dist-table td.cell-equivalent.cell-flash {
+  animation: cellFlashGreen 0.6s ease;
+}
+
+.dist-table td.cell-highlight {
+  box-shadow: 0 0 16px var(--cyan-dim), inset 0 0 8px var(--cyan-dim);
+  border-color: var(--cyan);
+}
+
+/* ===== MINIMIZED TABLE ===== */
+.minimized-table-wrap {
+  margin-top: 14px;
+  overflow-x: auto;
+}
+
+.minimized-table-wrap h4 {
+  font-size: 0.75rem;
+  color: var(--gold);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.minimized-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+}
+
+.minimized-table th {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--gold);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--gold-dim);
+  text-align: center;
+}
+
+.minimized-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  text-align: center;
+  color: var(--text);
+}
+
+@keyframes cellFlashRed {
+  0% { transform: scale(1); box-shadow: 0 0 0 var(--red-dim); }
+  50% { transform: scale(1.15); box-shadow: 0 0 24px var(--red-dim); }
+  100% { transform: scale(1); }
+}
+
+@keyframes cellFlashGreen {
+  0% { transform: scale(1); box-shadow: 0 0 0 var(--green-dim); }
+  50% { transform: scale(1.15); box-shadow: 0 0 24px var(--green-dim); }
+  100% { transform: scale(1); }
+}
