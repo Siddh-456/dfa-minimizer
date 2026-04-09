@@ -3545,43 +3545,41 @@
 
                 <h4
                     style="font-family:var(--font-display);color:var(--burgundy);font-size:1.4rem;margin-top:32px;margin-bottom:12px;">
-                    Detailed Statement of the Theorem</h4>
-                <p style="color:var(--text);margin-bottom:16px;">Published by John Myhill and Anil Nerode in 1958, the
-                    theorem definitively characterizes regular languages. The theorem establishes that the following
-                    three propositions are entirely logically equivalent:</p>
+                    The Three Equivalences of Myhill-Nerode</h4>
+                <p style="color:var(--text);margin-bottom:16px;">The Myhill-Nerode theorem (1958) establishes that the following three propositions are strictly logically equivalent for any language <em>L</em>:</p>
                 <ol style="color:var(--text);line-height:1.8;padding-left:24px;margin-bottom:24px;">
-                    <li>The language <em>L</em> is accepted by a deterministic finite automaton.</li>
-                    <li>The language <em>L</em> is the union of some equivalence classes of a
-                        <strong>right-invariant</strong> equivalence relation of finite index.</li>
-                    <li>The specific Myhill-Nerode relation ~<sub>L</sub> (defined above) yields a finite index (a
-                        finite number of distinct classes).</li>
+                    <li><em>L</em> is regular (i.e., recognized by some DFA).</li>
+                    <li><em>L</em> is the union of a set of equivalence classes of some <strong>right-invariant</strong> equivalence relation of finite index.</li>
+                    <li>The canonical indistinguishability relation ~<sub>L</sub> has a finite index.</li>
                 </ol>
 
                 <h4
                     style="font-family:var(--font-display);color:var(--burgundy);font-size:1.4rem;margin-top:32px;margin-bottom:12px;">
-                    Understanding "Right-Invariant"</h4>
-                <p style="color:var(--text);margin-bottom:16px;">A core mathematical pillar underneath the theorem is
-                    the concept of a <strong>right-invariant relation</strong>. If two string prefixes, <code>x</code>
-                    and <code>y</code>, are indistinguishable to your machine, appending any identical suffix
-                    <code>a</code> to both of them must yield new strings, <code>xa</code> and <code>ya</code>, which
-                    remain mutually indistinguishable. The machine has no memory to discern that their pasts were
-                    different.</p>
+                    Right-Invariance & The Coarsest Relation</h4>
+                <p style="color:var(--text);margin-bottom:16px;">An equivalence relation <em>R</em> on strings is <strong>right-invariant</strong> if <code>x R y</code> implies <code>xa R ya</code> for all characters <code>a</code> in the alphabet. If you think of an equivalence class as a "state memory", right-invariance guarantees that adding a character transitions both strings entirely deterministically into the same new "state memory".</p>
+                <p style="color:var(--text);margin-bottom:16px;">While many such relations can exist for <em>L</em>, ~<sub>L</sub> is the <strong>coarsest</strong> right-invariant equivalence relation that refines <em>L</em>. This means any other valid relation <em>R</em> simply subdivides the equivalence classes of ~<sub>L</sub> (yielding a machine with more states). Consequently, the classes of ~<sub>L</sub> perfectly define the <strong>absolute minimum</strong> number of states required to build the DFA.</p>
 
                 <h4
                     style="font-family:var(--font-display);color:var(--burgundy);font-size:1.4rem;margin-top:32px;margin-bottom:12px;">
-                    A Powerful Weapon for Non-Regularity</h4>
-                <p style="color:var(--text);margin-bottom:16px;">While the Pumping Lemma is the most famous tool for
-                    proving a language is not regular, the Myhill-Nerode theorem fundamentally provides a stronger,
-                    bidirectional test. The Pumping Lemma only operates in one direction: all regular languages pump,
-                    but some non-regular languages pump too. Myhill-Nerode offers an exact iff (if-and-only-if)
-                    condition.</p>
-                <p style="color:var(--text);margin-bottom:16px;">If you suspect a complex string validator is
-                    non-computable by a DFA, you just need to demonstrate that its Myhill-Nerode relation ~<sub>L</sub>
-                    generates an <strong>infinite</strong> number of equivalence classes. For example, in the language
-                    of correctly balanced parentheses, a string with 2 open parentheses requires a different future
-                    continuation than a string with 3 open parentheses. Ergo, every different count of open parentheses
-                    falls into its own equivalence class. Since there are infinite possible counts, there are infinite
-                    classes. By Myhill-Nerode, the language absolutely cannot be regular.</p>
+                    Constructing the Minimal DFA from ~<sub>L</sub></h4>
+                <p style="color:var(--text);margin-bottom:16px;">The beauty of the Myhill-Nerode theorem is that it doesn't just promise a minimal DFA—it gives you the exact blueprint to build it algebraically, without needing an initial NFA or DFA:</p>
+                <ul style="color:var(--text);line-height:1.8;padding-left:24px;margin-bottom:16px;">
+                    <li><strong>States (Q)</strong>: The set of equivalence classes of ~<sub>L</sub>, denoted as <code>[x]</code>.</li>
+                    <li><strong>Start State (q₀)</strong>: The class containing the empty string, <code>[ε]</code>.</li>
+                    <li><strong>Accept States (F)</strong>: The classes <code>[x]</code> where <code>x ∈ L</code>.</li>
+                    <li><strong>Transition Function (δ)</strong>: Defined intrinsically by right-invariance as <code>δ([x], a) = [xa]</code>.</li>
+                </ul>
+
+                <h4
+                    style="font-family:var(--font-display);color:var(--burgundy);font-size:1.4rem;margin-top:32px;margin-bottom:12px;">
+                    Proving Non-Regularity</h4>
+                <p style="color:var(--text);margin-bottom:16px;">The Myhill-Nerode theorem provides an exactly necessary and sufficient condition for regular languages, making it a stronger mathematical weapon than the Pumping Lemma. To prove a language is non-regular, you simply identify an infinite sequence of prefixes where no two prefixes can belong to the same equivalence class.</p>
+                <p style="color:var(--text);margin-bottom:16px;">For instance, in the language <code>L = { a<sup>n</sup>b<sup>n</sup> | n ≥ 0 }</code>, consider the prefixes <code>a<sup>i</sup></code> and <code>a<sup>j</sup></code> where <code>i ≠ j</code>. If you append the suffix <code>z = b<sup>i</sup></code>, you get <code>a<sup>i</sup>b<sup>i</sup></code> (which is inside <em>L</em>) and <code>a<sup>j</sup>b<sup>i</sup></code> (which is outside <em>L</em>). Because they differ on suffix <code>z</code>, every count of <code>a</code>'s forms its own distinct equivalence class. Ergo, ~<sub>L</sub> has an infinite index, which proves mathematically that no finite state automation can ever compute <em>L</em>.</p>
+
+                <div style="background:rgba(184,136,42,0.06);border-left:3px solid var(--gold);padding:18px 20px;border-radius:4px;margin-top:24px;">
+                    <h4 style="font-family:var(--font-display);color:var(--burgundy);font-size:1.2rem;margin-bottom:8px;margin-top:0;">Bridging to the Table-Filling Algorithm</h4>
+                    <p style="color:var(--text);font-size:1.0rem;margin-bottom:0;">The Myhill-Nerode theorem states that states are equivalent if and only if they behave identically on all future inputs. The <strong>Table-Filling Method</strong> is the algorithmic realization of this theorem. It starts by assuming all states are equivalent, and systematically "marks" pairs that violate the Myhill-Nerode indistinguishability condition. When it terminates, the unmarked pairs represent the precise equivalence classes dictated by the theorem.</p>
+                </div>
 
             </div>
 
@@ -3589,8 +3587,22 @@
             <div id="t4" style="display:none;">
                 <h3 style="font-family:var(--font-display);color:var(--burgundy);font-size:1.8rem;margin-bottom:8px;">
                     Table-Filling Algorithm</h3>
-                <p style="color:var(--text-muted);margin-bottom:24px;">Practical O(n²|Σ|) algorithm to find all
-                    distinguishable pairs.</p>
+                <p style="color:var(--text-muted);margin-bottom:24px;">Practical O(n²|Σ|) algorithm to find all distinguishable pairs.</p>
+
+                <div style="background:#0F1912;color:var(--chalk-white);padding:24px 32px;border-radius:12px;margin-bottom:32px;font-size:1.15rem;box-shadow:inset 0 0 20px rgba(0,0,0,0.5);">
+                    <h4 style="color:#FFF000;margin-top:0;margin-bottom:6px;font-size:1.6rem;font-family:var(--font-chalk);font-weight:700;text-align:center;text-decoration:underline;letter-spacing:1px;">Minimization of DFA - Table Filling Method</h4>
+                    <p style="margin-bottom:20px;color:rgba(255,255,255,0.9);font-family:var(--font-body);font-size:1rem;text-align:center;">(Myhill-Nerode Theorem)</p>
+                    <p style="color:#7CFC00;text-decoration:underline;margin-bottom:12px;font-family:var(--font-chalk);font-size:1.4rem;">Steps:</p>
+                    <ol style="margin:0;padding-left:24px;line-height:1.6;color:#7CFC00;font-family:var(--font-chalk);font-size:1.3rem;">
+                        <li style="margin-bottom:6px;">Draw a table for all pairs of states (P,Q)</li>
+                        <li style="margin-bottom:6px;">Mark all pairs where P ∈ F and Q ∉ F</li>
+                        <li style="margin-bottom:6px;">If there are any Unmarked pairs (P,Q) such that [δ(P,x), δ(Q,x)] is marked, then mark [P,Q] where 'x' is an input symbol<br>
+                        <span style="color:#FFF000;font-weight:700;display:inline-block;margin-top:4px;">REPEAT THIS UNTIL NO MORE MARKINGS CAN BE MADE</span></li>
+                        <li>Combine all the Unmarked Pairs and make them a single state in the minimized DFA</li>
+                    </ol>
+                </div>
+
+                <p style="color:var(--text);font-weight:600;margin-bottom:16px;">Visualizing the mechanics step-by-step:</p>
 
                 <!-- Step 1 -->
                 <div style="display:flex;gap:16px;margin-bottom:20px;align-items:flex-start;">
