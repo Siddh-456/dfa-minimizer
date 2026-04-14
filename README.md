@@ -6,7 +6,7 @@
     table-filling algorithm unfold step by step until the minimized automaton is produced and verified.
   </p>
   <p>
-    <a href="dfaminimizer.vercel.app"><strong>Live Demo</strong></a>
+    <a href="https://dfaminimizer.vercel.app/"><strong>Live Demo</strong></a>
     &nbsp;&middot;&nbsp;
     <a href="#visual-tour"><strong>Visual Tour</strong></a>
     &nbsp;&middot;&nbsp;
